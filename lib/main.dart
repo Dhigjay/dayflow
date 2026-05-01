@@ -20,9 +20,9 @@ class DayFlowApp extends StatelessWidget {
       title: 'DayFlow',
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: 'sans-serif',
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFAB47BC)),
       ),
+      // Selalu mulai dari StartPage, tidak ada auto-login
       home: const StartPage(),
     );
   }

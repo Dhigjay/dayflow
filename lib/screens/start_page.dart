@@ -1,4 +1,3 @@
-import 'package:dayflow/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 
@@ -36,6 +35,19 @@ class _StartPageState extends State<StartPage>
     super.dispose();
   }
 
+  void _goToLogin() {
+    // Selalu push ke LoginPage — tidak pernah skip
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, _) => const LoginPage(),
+        transitionsBuilder: (context, anim, _, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 400),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -51,7 +63,7 @@ class _StartPageState extends State<StartPage>
               children: [
                 const Spacer(flex: 2),
 
-                // ── Logo Icon ──
+                // ── Logo ──
                 Container(
                   width: size.width * 0.32,
                   height: size.width * 0.32,
@@ -109,18 +121,7 @@ class _StartPageState extends State<StartPage>
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation, _) =>
-                              const HomePage(),
-                          transitionsBuilder: (context, anim, _, child) =>
-                              FadeTransition(opacity: anim, child: child),
-                          transitionDuration: const Duration(milliseconds: 400),
-                        ),
-                      );
-                    },
+                    onTap: _goToLogin,
                     child: Container(
                       width: double.infinity,
                       height: 60,
