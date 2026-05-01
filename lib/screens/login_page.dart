@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 8),
                       _buildInput(
                         controller: _usernameCtrl,
-                        hint: 'yourusername',
+                        hint: 'your username',
                         icon: Icons.person_outline,
                       ),
 
