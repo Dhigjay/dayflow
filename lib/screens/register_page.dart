@@ -15,7 +15,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   bool _obscurePassword = true;
-  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -58,24 +57,22 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    setState(() => _isLoading = true);
+    // Register langsung — tidak pakai async/Future.delayed
+    AppState().login(
+      AppUser(username: username, email: email, password: password),
+    );
 
-    Future.delayed(const Duration(milliseconds: 600), () {
-      AppState().login(
-        AppUser(username: username, email: email, password: password),
-      );
-      if (!mounted) return;
-      Navigator.pushAndRemoveUntil(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (context, animation, _) => const HomePage(),
-          transitionsBuilder: (context, anim, _, child) =>
-              FadeTransition(opacity: anim, child: child),
-          transitionDuration: const Duration(milliseconds: 400),
-        ),
-        (route) => false,
-      );
-    });
+    if (!mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, _) => const HomePage(),
+        transitionsBuilder: (context, anim, _, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 400),
+      ),
+      (route) => false,
+    );
   }
 
   @override
@@ -92,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
               // ── Title ──
               const Text(
-                'DauFlow',
+                'DayFlow',
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.w900,
@@ -103,14 +100,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
               const SizedBox(height: 16),
 
-              // Avatar overlapping card
-              // ✅ BENAR
+              // ── Stack: avatar floating di atas card ──
               Stack(
                 alignment: Alignment.topCenter,
                 children: [
+                  // White Card (margin top agar ada ruang untuk avatar)
                   Container(
                     margin: EdgeInsets.only(
-                      top: 50,
+                      top: 45,
                       left: size.width * 0.05,
                       right: size.width * 0.05,
                     ),
@@ -129,7 +126,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     child: Column(
                       children: [
-                        // Title inside card
                         const Text(
                           'Create Account',
                           style: TextStyle(
@@ -150,10 +146,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                         const SizedBox(height: 24),
 
-                        // Full Name
                         _buildLabel('Full Name'),
                         const SizedBox(height: 8),
-                        _buildInputField(
+                        _buildInput(
                           controller: _usernameCtrl,
                           hint: 'Jane Doe',
                           icon: Icons.person_outline,
@@ -161,10 +156,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                         const SizedBox(height: 16),
 
-                        // Email
                         _buildLabel('Email Address'),
                         const SizedBox(height: 8),
-                        _buildInputField(
+                        _buildInput(
                           controller: _emailCtrl,
                           hint: 'jane@example.com',
                           icon: Icons.mail_outline,
@@ -173,15 +167,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
                         const SizedBox(height: 16),
 
-                        // Password
                         _buildLabel('Password'),
                         const SizedBox(height: 8),
-                        _buildInputField(
+                        _buildInput(
                           controller: _passwordCtrl,
                           hint: '••••••••',
                           icon: Icons.lock_outline,
                           obscure: _obscurePassword,
-                          suffixIcon: IconButton(
+                          suffix: IconButton(
                             icon: Icon(
                               _obscurePassword
                                   ? Icons.visibility_outlined
@@ -196,9 +189,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                         const SizedBox(height: 28),
 
-                        // Register Button
+                        // ── Register Button ──
                         GestureDetector(
-                          onTap: _isLoading ? null : _register,
+                          onTap: _register,
                           child: Container(
                             width: double.infinity,
                             height: 56,
@@ -206,43 +199,31 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(28),
                             ),
-                            child: Center(
-                              child: _isLoading
-                                  ? const SizedBox(
-                                      width: 24,
-                                      height: 24,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 2.5,
-                                      ),
-                                    )
-                                  : const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Register',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        SizedBox(width: 8),
-                                        Icon(
-                                          Icons.arrow_forward,
-                                          color: Colors.white,
-                                          size: 20,
-                                        ),
-                                      ],
-                                    ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Register',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ],
                             ),
                           ),
                         ),
 
                         const SizedBox(height: 20),
 
-                        // Login link
+                        // ── Login Link ──
                         GestureDetector(
                           onTap: () {
                             Navigator.pushReplacement(
@@ -272,7 +253,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
 
-                  // Floating avatar on top of card
+                  // Floating avatar
                   Container(
                     width: 90,
                     height: 90,
@@ -292,13 +273,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
               const SizedBox(height: 28),
 
-              // Bottom decorative icons
+              // ── Dekor bawah ──
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildDecorIcon(Icons.eco_outlined),
+                  _decorIcon(Icons.eco_outlined),
                   const SizedBox(width: 16),
-                  _buildDecorIcon(Icons.favorite_border),
+                  _decorIcon(Icons.favorite_border),
                 ],
               ),
 
@@ -310,7 +291,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _buildDecorIcon(IconData icon) {
+  Widget _decorIcon(IconData icon) {
     return Container(
       width: 52,
       height: 52,
@@ -337,12 +318,12 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _buildInputField({
+  Widget _buildInput({
     required TextEditingController controller,
     required String hint,
     required IconData icon,
     bool obscure = false,
-    Widget? suffixIcon,
+    Widget? suffix,
     TextInputType? keyboardType,
   }) {
     return Container(
@@ -365,7 +346,7 @@ class _RegisterPageState extends State<RegisterPage> {
           prefixIcon: Icon(icon, color: Colors.black54, size: 22),
           hintText: hint,
           hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 15),
-          suffixIcon: suffixIcon,
+          suffixIcon: suffix,
         ),
       ),
     );
