@@ -1,3 +1,4 @@
+import 'package:dayflow/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 
@@ -61,7 +62,9 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
 
   String _formatTime(TimeOfDay? time) {
     if (time == null) return '--:-- --';
-    final hour12 = time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+    final hour12 = time.hour > 12
+        ? time.hour - 12
+        : (time.hour == 0 ? 12 : time.hour);
     final m = time.minute.toString().padLeft(2, '0');
     final suffix = time.hour >= 12 ? 'PM' : 'AM';
     return '${hour12.toString().padLeft(2, '0')}:$m $suffix';
@@ -75,7 +78,9 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
           content: const Text('Judul tugas wajib diisi!'),
           backgroundColor: Colors.red.shade400,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
       return;
@@ -138,7 +143,11 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
                         ),
                         border: Border.all(color: Colors.black, width: 1.5),
                         boxShadow: const [
-                          BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, -2)),
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 8,
+                            offset: Offset(0, -2),
+                          ),
                         ],
                       ),
                       padding: const EdgeInsets.all(20),
@@ -204,21 +213,38 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
                             children: TaskCategory.values.map((cat) {
                               final isSelected = _selectedCategory == cat;
                               return GestureDetector(
-                                onTap: () => setState(() => _selectedCategory = cat),
+                                onTap: () =>
+                                    setState(() => _selectedCategory = cat),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: isSelected ? const Color(0xFFAB47BC) : Colors.white,
+                                    color: isSelected
+                                        ? const Color(0xFFAB47BC)
+                                        : Colors.white,
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: Colors.black, width: 1.5),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1.5,
+                                    ),
                                     boxShadow: isSelected
-                                        ? const [BoxShadow(color: Colors.black, offset: Offset(2, 2), blurRadius: 0)]
+                                        ? const [
+                                            BoxShadow(
+                                              color: Colors.black,
+                                              offset: Offset(2, 2),
+                                              blurRadius: 0,
+                                            ),
+                                          ]
                                         : null,
                                   ),
                                   child: Text(
                                     _categoryLabel(cat),
                                     style: TextStyle(
-                                      color: isSelected ? Colors.white : Colors.black87,
+                                      color: isSelected
+                                          ? Colors.white
+                                          : Colors.black87,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 13,
                                     ),
@@ -238,23 +264,39 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
                               final isSelected = _selectedPriority == p;
                               return Expanded(
                                 child: GestureDetector(
-                                  onTap: () => setState(() => _selectedPriority = p),
+                                  onTap: () =>
+                                      setState(() => _selectedPriority = p),
                                   child: Container(
                                     margin: const EdgeInsets.only(right: 8),
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: isSelected ? const Color(0xFFAB47BC) : Colors.white,
+                                      color: isSelected
+                                          ? const Color(0xFFAB47BC)
+                                          : Colors.white,
                                       borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(color: Colors.black, width: 1.5),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                        width: 1.5,
+                                      ),
                                       boxShadow: isSelected
-                                          ? const [BoxShadow(color: Colors.black, offset: Offset(2, 2), blurRadius: 0)]
+                                          ? const [
+                                              BoxShadow(
+                                                color: Colors.black,
+                                                offset: Offset(2, 2),
+                                                blurRadius: 0,
+                                              ),
+                                            ]
                                           : null,
                                     ),
                                     child: Center(
                                       child: Text(
                                         _priorityLabel(p),
                                         style: TextStyle(
-                                          color: isSelected ? Colors.white : Colors.black87,
+                                          color: isSelected
+                                              ? Colors.white
+                                              : Colors.black87,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 13,
                                         ),
@@ -275,7 +317,10 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.black, width: 1.5),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.5,
+                              ),
                             ),
                             child: TextField(
                               controller: _notesCtrl,
@@ -285,7 +330,10 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
                                 border: InputBorder.none,
                                 contentPadding: const EdgeInsets.all(14),
                                 hintText: 'Tambahkan catatan jika perlu...',
-                                hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                                hintStyle: TextStyle(
+                                  color: Colors.grey.shade400,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           ),
@@ -305,7 +353,11 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.check_circle_outline, color: Colors.white, size: 22),
+                                  Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.white,
+                                    size: 22,
+                                  ),
                                   SizedBox(width: 10),
                                   Text(
                                     'SIMPAN JADWAL',
@@ -366,7 +418,10 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 14,
+            horizontal: 12,
+          ),
           prefixIcon: Icon(prefixIcon, size: 20, color: Colors.black54),
           hintText: hint,
           hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
@@ -412,19 +467,27 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
 
   String _categoryLabel(TaskCategory cat) {
     switch (cat) {
-      case TaskCategory.work: return 'Work';
-      case TaskCategory.personal: return 'Personal';
-      case TaskCategory.health: return 'Health';
-      case TaskCategory.study: return 'Study';
-      case TaskCategory.other: return 'Other';
+      case TaskCategory.work:
+        return 'Work';
+      case TaskCategory.personal:
+        return 'Personal';
+      case TaskCategory.health:
+        return 'Health';
+      case TaskCategory.study:
+        return 'Study';
+      case TaskCategory.other:
+        return 'Other';
     }
   }
 
   String _priorityLabel(TaskPriority p) {
     switch (p) {
-      case TaskPriority.low: return 'Low';
-      case TaskPriority.medium: return 'Medium';
-      case TaskPriority.high: return 'High';
+      case TaskPriority.low:
+        return 'Low';
+      case TaskPriority.medium:
+        return 'Medium';
+      case TaskPriority.high:
+        return 'High';
     }
   }
 
@@ -443,10 +506,17 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          // Tombol Home
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.home_filled, color: Colors.black45, size: 24),
+            child: const Icon(
+              Icons.home_filled,
+              color: Colors.black45,
+              size: 24,
+            ),
           ),
+
+          // Tombol Add Schedule (Sedang Aktif)
           Container(
             width: 44,
             height: 44,
@@ -456,7 +526,23 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
             ),
             child: const Icon(Icons.add, color: Colors.white, size: 24),
           ),
-          const Icon(Icons.person_outline, color: Colors.black45, size: 24),
+
+          // Tombol Profile (Diperbarui navigasinya)
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ), // Pastikan import ProfilePage
+              );
+            },
+            child: const Icon(
+              Icons.person_outline,
+              color: Colors.black45,
+              size: 24,
+            ),
+          ),
         ],
       ),
     );

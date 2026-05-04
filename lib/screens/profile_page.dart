@@ -1,3 +1,4 @@
+import 'package:dayflow/screens/add_schedule_page.dart';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import 'start_page.dart';
@@ -476,7 +477,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _buildBottomNav() {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -489,27 +490,31 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          // Tombol Home
           GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () => Navigator.pop(context), // Kembali ke layar utama
             child: const Icon(
               Icons.home_filled,
               color: Colors.black45,
               size: 24,
             ),
           ),
+
+          // Tombol Add Schedule (Diperbarui navigasinya)
           GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-                border: Border.all(color: Colors.black, width: 1.5),
-              ),
-              child: const Icon(Icons.add, color: Colors.black, size: 24),
-            ),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddSchedulePage(),
+                ), // Pastikan import AddSchedulePage
+              );
+            },
+            // Di sini ikon "+" tidak dibungkus background ungu karena user sedang tidak di halaman Add Schedule
+            child: const Icon(Icons.add, color: Colors.black45, size: 24),
           ),
+
+          // Tombol Profile (Sedang Aktif)
           Container(
             width: 44,
             height: 44,
@@ -517,7 +522,11 @@ class _ProfilePageState extends State<ProfilePage> {
               shape: BoxShape.circle,
               color: Color(0xFFAB47BC),
             ),
-            child: const Icon(Icons.person, color: Colors.white, size: 24),
+            child: const Icon(
+              Icons.person_outline,
+              color: Colors.white,
+              size: 24,
+            ),
           ),
         ],
       ),

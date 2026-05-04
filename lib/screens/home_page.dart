@@ -60,13 +60,64 @@ class _HomePageState extends State<HomePage> {
 
   String _formatTime(TimeOfDay? time) {
     if (time == null) return '';
-    final h = time.hour.toString().padLeft(2, '0');
     final m = time.minute.toString().padLeft(2, '0');
     final suffix = time.hour >= 12 ? 'PM' : 'AM';
     final hour12 = time.hour > 12
         ? time.hour - 12
         : (time.hour == 0 ? 12 : time.hour);
     return '${hour12.toString().padLeft(2, '0')}:$m $suffix';
+  }
+
+  // ── BARU: format tanggal ──
+  String _formatDate(DateTime date) {
+    const months = [
+      '',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return '${date.day} ${months[date.month]} ${date.year}';
+  }
+
+  // ── BARU: label kategori ──
+  String _categoryLabel(TaskCategory cat) {
+    switch (cat) {
+      case TaskCategory.work:
+        return 'Work';
+      case TaskCategory.personal:
+        return 'Personal';
+      case TaskCategory.health:
+        return 'Health';
+      case TaskCategory.study:
+        return 'Study';
+      case TaskCategory.other:
+        return 'Other';
+    }
+  }
+
+  // ── BARU: ikon kategori ──
+  IconData _categoryIcon(TaskCategory cat) {
+    switch (cat) {
+      case TaskCategory.work:
+        return Icons.work_outline;
+      case TaskCategory.personal:
+        return Icons.person_outline;
+      case TaskCategory.health:
+        return Icons.favorite_border;
+      case TaskCategory.study:
+        return Icons.school_outlined;
+      case TaskCategory.other:
+        return Icons.label_outline;
+    }
   }
 
   void _showCompleteDialog(TaskItem task) {
@@ -395,6 +446,9 @@ class _HomePageState extends State<HomePage> {
     final textColor = isComplete
         ? Colors.grey.shade400
         : _priorityTextColor(task.priority);
+    final subTextColor = isComplete
+        ? Colors.grey.shade400
+        : textColor.withValues(alpha: 0.75);
     final dotColor = isComplete ? Colors.grey.shade400 : textColor;
 
     return Container(
@@ -409,45 +463,136 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Dot
-          Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+          // Dot (sedikit padding atas agar sejajar dengan teks judul)
+          Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                color: dotColor,
+                shape: BoxShape.circle,
+              ),
+            ),
           ),
           const SizedBox(width: 12),
 
-          // Title + time
+          // ── Konten utama ──
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Judul
                 Text(
                   task.title,
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: textColor,
                     decoration: isComplete ? TextDecoration.lineThrough : null,
                     decorationColor: textColor,
                   ),
                 ),
-                if (task.time != null)
-                  Text(
-                    _formatTime(task.time),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isComplete
-                          ? Colors.grey.shade400
-                          : textColor.withValues(alpha: 0.8),
+
+                const SizedBox(height: 6),
+
+                // ── Baris: Tanggal & Waktu ──
+                Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 12,
+                      color: subTextColor,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      task.date != null ? _formatDate(task.date!) : '',
+                      style: TextStyle(fontSize: 12, color: subTextColor),
+                    ),
+                    if (task.time != null) ...[
+                      const SizedBox(width: 10),
+                      Icon(
+                        Icons.access_time_outlined,
+                        size: 12,
+                        color: subTextColor,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        _formatTime(task.time),
+                        style: TextStyle(fontSize: 12, color: subTextColor),
+                      ),
+                    ],
+                  ],
+                ),
+
+                const SizedBox(height: 5),
+
+                // ── Baris: Kategori ──
+                Row(
+                  children: [
+                    Icon(
+                      _categoryIcon(task.category),
+                      size: 12,
+                      color: subTextColor,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      _categoryLabel(task.category),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: subTextColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+
+                // ── Catatan (hanya tampil jika ada) ──
+                if (task.notes != null && task.notes!.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.notes_outlined,
+                          size: 12,
+                          color: subTextColor,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            task.notes!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: subTextColor,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                ],
               ],
             ),
           ),
 
-          // Checkbox
+          const SizedBox(width: 8),
+
+          // ── Checkbox ──
           GestureDetector(
             onTap: () => isComplete
                 ? _showUncompleteDialog(task)
@@ -457,7 +602,6 @@ class _HomePageState extends State<HomePage> {
               height: 28,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isComplete ? Colors.transparent : Colors.transparent,
                 border: Border.all(
                   color: isComplete ? Colors.grey.shade400 : textColor,
                   width: 2,
@@ -515,7 +659,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (_, a, b) => const AddSchedulePage(),
-                  transitionsBuilder: (_, anim, __, child) => SlideTransition(
+                  transitionsBuilder: (context, anim, secondaryAnim, child) => SlideTransition(
                     position: Tween<Offset>(
                       begin: const Offset(0, 1),
                       end: Offset.zero,
@@ -548,7 +692,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (_, a, b) => const ProfilePage(),
-                  transitionsBuilder: (_, anim, __, child) =>
+                  transitionsBuilder: (context, anim, secondaryAnim, child) =>
                       FadeTransition(opacity: anim, child: child),
                   transitionDuration: const Duration(milliseconds: 300),
                 ),
