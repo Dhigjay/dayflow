@@ -160,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(height: 8),
                         _buildInput(
                           controller: _emailCtrl,
-                          hint: 'yourl@example.com',
+                          hint: 'your@example.com',
                           icon: Icons.mail_outline,
                           keyboardType: TextInputType.emailAddress,
                         ),
