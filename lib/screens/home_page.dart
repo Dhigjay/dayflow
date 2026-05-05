@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_state.dart';
 import 'add_schedule_page.dart';
 import 'profile_page.dart';
+import '../widgets/app_sidebar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -197,6 +198,7 @@ class _HomePageState extends State<HomePage> {
     final completed = _state.completedTasks;
 
     return Scaffold(
+      drawer: const AppSidebar(),
       backgroundColor: const Color(0xFFAB47BC),
       body: SafeArea(
         child: Column(
@@ -223,6 +225,17 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Row(
                   children: [
+                    Builder(
+                      builder: (ctx) => GestureDetector(
+                        onTap: () => Scaffold.of(ctx).openDrawer(),
+                        child: const Icon(
+                          Icons.menu,
+                          size: 24,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
                     const Expanded(
                       child: Text(
                         'DayFlow',
@@ -659,13 +672,14 @@ class _HomePageState extends State<HomePage> {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (_, a, b) => const AddSchedulePage(),
-                  transitionsBuilder: (context, anim, secondaryAnim, child) => SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, 1),
-                      end: Offset.zero,
-                    ).animate(anim),
-                    child: child,
-                  ),
+                  transitionsBuilder: (context, anim, secondaryAnim, child) =>
+                      SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, 1),
+                          end: Offset.zero,
+                        ).animate(anim),
+                        child: child,
+                      ),
                   transitionDuration: const Duration(milliseconds: 350),
                 ),
               );
