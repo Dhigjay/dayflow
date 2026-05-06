@@ -1,3 +1,12 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -6,7 +15,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.dayflow"
+    namespace = "com.ti24a5.app8"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +30,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.dayflow"
+        applicationId = "com.ti24a5.app8"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -30,11 +39,24 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        // Gunakan create("release") untuk membuat konfigurasi baru di KTS
+        create("release") {
+            if (keystorePropertiesFile.exists()) {
+                // Tambahkan 'as String' pada file() agar Kotlin tidak error karena null-safety
+                storeFile = file(keystoreProperties.getProperty("storeFile") as String)
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+        // Gunakan getByName("release") untuk mengkonfigurasi build type yang sudah ada
+        getByName("release") {
+            // Mengatur agar build type 'release' menggunakan konfigurasi 'release' yang telah dibuat di atas.
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
