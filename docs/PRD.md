@@ -4,8 +4,7 @@
 **Status:** In-Progress  
 **Pemilik Produk:** Dhigjay  
 **Desainer/Developer:** Jay.dev 
-**Tanggal pembuatan:** 6 April 2026 
-
+**Tanggal Pembuatan:** 06 Mei 2026
 ---
 
 ## 1. Ringkasan Eksekutif
