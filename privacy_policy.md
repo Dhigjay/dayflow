@@ -1,66 +1,66 @@
-**Privacy Policy**
+# Kebijakan Privasi
 
-This privacy policy applies to the DayFlow app (hereby referred to as "Application") for mobile devices that was created by Jay.dev (hereby referred to as "Service Provider") as a Free service. This service is intended for use "AS IS".
+Kebijakan privasi ini berlaku untuk aplikasi DayFlow (selanjutnya disebut sebagai "Aplikasi") untuk perangkat seluler yang dibuat oleh Jay.dev (selanjutnya disebut sebagai "Penyedia Layanan") sebagai layanan Gratis. Layanan ini dimaksudkan untuk digunakan "APA ADANYA".
 
-**Information Collection and Use**
+**Pengumpulan dan Penggunaan Informasi**
 
-The Application collects information when you download and use it. This information may include information such as
+Aplikasi mengumpulkan informasi saat Anda mengunduh dan menggunakannya. Informasi ini dapat mencakup informasi seperti:
 
-*   Your device's Internet Protocol address (e.g. IP address)
-*   The pages of the Application that you visit, the time and date of your visit, the time spent on those pages
-*   The time spent on the Application
-*   The operating system you use on your mobile device
+* Alamat Protokol Internet perangkat Anda (misalnya alamat IP)
+* Halaman-halaman Aplikasi yang Anda kunjungi, waktu dan tanggal kunjungan Anda, serta waktu yang dihabiskan di halaman-halaman tersebut
+* Waktu yang dihabiskan di Aplikasi
+* Sistem operasi yang Anda gunakan pada perangkat seluler Anda
 
-The Application does not gather precise information about the location of your mobile device.
+Aplikasi tidak mengumpulkan informasi presisi tentang lokasi perangkat seluler Anda.
 
-The Application does not use Artificial Intelligence (AI) technologies to process your data or provide features.
+Aplikasi tidak menggunakan teknologi Kecerdasan Buatan (AI) untuk memproses data Anda atau menyediakan fitur.
 
-The Service Provider may use the information you provided to contact you from time to time to provide you with important information, required notices and marketing promotions.
+Penyedia Layanan dapat menggunakan informasi yang Anda berikan untuk menghubungi Anda dari waktu ke waktu guna memberikan informasi penting, pemberitahuan yang diwajibkan, dan promosi pemasaran.
 
-For a better experience, while using the Application, the Service Provider may require you to provide us with certain personally identifiable information, including but not limited to email, password. The information that the Service Provider request will be retained by them and used as described in this privacy policy.
+Untuk pengalaman yang lebih baik, saat menggunakan Aplikasi, Penyedia Layanan mungkin meminta Anda untuk memberikan kami informasi pengenal pribadi tertentu, termasuk namun tidak terbatas pada email dan kata sandi. Informasi yang diminta oleh Penyedia Layanan akan disimpan oleh mereka dan digunakan sebagaimana dijelaskan dalam kebijakan privasi ini.
 
-**Third Party Access**
+**Akses Pihak Ketiga**
 
-Only aggregated, anonymized data is periodically transmitted to external services to aid the Service Provider in improving the Application and their service. The Service Provider may share your information with third parties in the ways that are described in this privacy statement.
+Hanya data gabungan (agregat) dan anonim yang dikirimkan secara berkala ke layanan eksternal untuk membantu Penyedia Layanan dalam meningkatkan Aplikasi dan layanan mereka. Penyedia Layanan dapat membagikan informasi Anda dengan pihak ketiga menggunakan cara-cara yang dijelaskan dalam pernyataan privasi ini.
 
-Please note that the Application utilizes third-party services that have their own Privacy Policy about handling data. Below are the links to the Privacy Policy of the third-party service providers used by the Application:
+Harap dicatat bahwa Aplikasi menggunakan layanan pihak ketiga yang memiliki Kebijakan Privasi mereka sendiri tentang penanganan data. Di bawah ini adalah tautan ke Kebijakan Privasi dari penyedia layanan pihak ketiga yang digunakan oleh Aplikasi:
 
-*   [Google Play Services](https://www.google.com/policies/privacy/)
+* [Layanan Google Play (Google Play Services)](https://www.google.com/policies/privacy/)
 
-The Service Provider may disclose User Provided and Automatically Collected Information:
+Penyedia Layanan dapat mengungkapkan Informasi yang Diberikan Pengguna dan Informasi yang Dikumpulkan Secara Otomatis:
 
-*   as required by law, such as to comply with a subpoena, or similar legal process;
-*   when they believe in good faith that disclosure is necessary to protect their rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;
-*   with their trusted services providers who work on their behalf, do not have an independent use of the information we disclose to them, and have agreed to adhere to the rules set forth in this privacy statement.
+* sebagaimana diwajibkan oleh hukum, seperti untuk mematuhi panggilan pengadilan, atau proses hukum serupa;
+* ketika mereka meyakini dengan itikad baik bahwa pengungkapan diperlukan untuk melindungi hak mereka, melindungi keselamatan Anda atau keselamatan orang lain, menyelidiki penipuan, atau menanggapi permintaan pemerintah;
+* kepada penyedia layanan tepercaya mereka yang bekerja atas nama mereka, yang tidak memiliki hak penggunaan independen atas informasi yang kami ungkapkan kepada mereka, dan telah setuju untuk mematuhi aturan yang ditetapkan dalam pernyataan privasi ini.
 
-**Opt-Out Rights**
+**Hak Menolak (Opt-Out)**
 
-You can stop all collection of information by the Application easily by uninstalling it. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network.
+Anda dapat menghentikan seluruh pengumpulan informasi oleh Aplikasi dengan mudah dengan mencopot pemasangannya (uninstall). Anda dapat menggunakan proses pencopotan pemasangan standar yang tersedia sebagai bagian dari perangkat seluler Anda atau melalui pasar/jaringan aplikasi seluler.
 
-**Data Retention Policy**
+**Kebijakan Penyimpanan Data**
 
-The Service Provider will retain User Provided data for as long as you use the Application and for a reasonable time thereafter. If you'd like them to delete User Provided Data that you have provided via the Application, please contact them at dhigjaya210@gmail.com and they will respond in a reasonable time.
+Penyedia Layanan akan menyimpan data yang Diberikan Pengguna selama Anda menggunakan Aplikasi dan untuk jangka waktu yang wajar setelahnya. Jika Anda ingin meminta mereka untuk menghapus Data yang Diberikan Pengguna yang telah Anda berikan melalui Aplikasi, silakan hubungi mereka di dhigjaya210@gmail.com dan mereka akan merespons dalam waktu yang wajar.
 
-**Children**
+**Anak-Anak**
 
-The Service Provider does not use the Application to knowingly solicit data from or market to children under the age of 13.
+Penyedia Layanan tidak menggunakan Aplikasi untuk dengan sengaja meminta data dari atau memasarkan produk kepada anak-anak di bawah usia 13 tahun.
 
-The Application does not address anyone under the age of 13\. The Service Provider does not knowingly collect personally identifiable information from children under 13 years of age. In the case the Service Provider discover that a child under 13 has provided personal information, the Service Provider will immediately delete this from their servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact the Service Provider (dhigjaya210@gmail.com) so that they will be able to take the necessary actions.
+Aplikasi ini tidak ditujukan untuk siapa pun yang berusia di bawah 13 tahun. Penyedia Layanan tidak dengan sengaja mengumpulkan informasi pengenal pribadi dari anak-anak di bawah usia 13 tahun. Dalam hal Penyedia Layanan menemukan bahwa seorang anak di bawah 13 tahun telah memberikan informasi pribadi, Penyedia Layanan akan segera menghapusnya dari server mereka. Jika Anda adalah orang tua atau wali dan Anda mengetahui bahwa anak Anda telah memberikan informasi pribadi kepada kami, silakan hubungi Penyedia Layanan (dhigjaya210@gmail.com) sehingga mereka dapat mengambil tindakan yang diperlukan.
 
-**Security**
+**Keamanan**
 
-The Service Provider is concerned about safeguarding the confidentiality of your information. The Service Provider provides physical, electronic, and procedural safeguards to protect information the Service Provider processes and maintains.
+Penyedia Layanan peduli untuk menjaga kerahasiaan informasi Anda. Penyedia Layanan menyediakan perlindungan fisik, elektronik, dan prosedural untuk melindungi informasi yang diproses dan disimpan oleh Penyedia Layanan.
 
-**Changes**
+**Perubahan**
 
-This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of any changes to the Privacy Policy by updating this page with the new Privacy Policy. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.
+Kebijakan Privasi ini dapat diperbarui dari waktu ke waktu untuk alasan apa pun. Penyedia Layanan akan memberi tahu Anda tentang setiap perubahan pada Kebijakan Privasi dengan memperbarui halaman ini dengan Kebijakan Privasi yang baru. Anda disarankan untuk membaca Kebijakan Privasi ini secara berkala untuk mengetahui setiap perubahan, karena penggunaan secara berkelanjutan dianggap sebagai persetujuan atas semua perubahan tersebut.
 
-This privacy policy is effective as of 2026-05-06
+Kebijakan privasi ini berlaku mulai tanggal **6 Mei 2026**.
 
-**Your Consent**
+**Persetujuan Anda**
 
-By using the Application, you are consenting to the processing of your information as set forth in this Privacy Policy now and as amended by us.
+Dengan menggunakan Aplikasi ini, Anda menyetujui pemrosesan informasi Anda sebagaimana diatur dalam Kebijakan Privasi ini saat ini dan sebagaimana diubah oleh kami di kemudian hari.
 
-**Contact Us**
+**Hubungi Kami**
 
-If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at dhigjaya210@gmail.com.
+Jika Anda memiliki pertanyaan mengenai privasi saat menggunakan Aplikasi, atau memiliki pertanyaan tentang praktik yang dilakukan, silakan hubungi Penyedia Layanan melalui email di **dhigjaya210@gmail.com**.
