@@ -2,8 +2,8 @@
 
 **Versi:** 1.0  
 **Status:** In-Progress  
-**Pemilik Produk:** [Nama Anda/Tim DayFlow]  
-**Desainer/Developer:** Gemini & Developer  
+**Pemilik Produk:** [Dhigjay]  
+**Desainer/Developer:** Jay.dev  
 
 ---
 
@@ -11,7 +11,7 @@
 **DayFlow** adalah aplikasi manajemen tugas (to-do list) berbasis mobile yang dirancang untuk membantu pengguna mengelola jadwal harian dengan antarmuka yang berani, dinamis, dan tidak kaku. Menggunakan gaya desain **Neo-brutalism**, DayFlow memadukan fungsionalitas produktivitas dengan estetika modern.
 
 ## 2. Tujuan & Visi
-* **Tujuan:** Menyediakan platform manajemen tugas yang intuitif dengan pelacakan statistik yang nyata.
+* **Tujuan:** Menyediakan platform manajemen jadwal yang intuitif dengan pelacakan statistik yang nyata. Serta membuat pribadi yang lebih produktif.
 * **Visi:** Mengubah manajemen waktu dari aktivitas yang membosankan menjadi pengalaman visual yang menarik melalui desain yang unik.
 
 ## 3. Target Pengguna
@@ -22,7 +22,7 @@
 ## 4. Fitur Utama (User Features)
 
 ### 4.1 Manajemen Jadwal (Schedule Management)
-* **Tambah Tugas:** Input judul, tanggal, waktu, kategori, prioritas, dan catatan tambahan.
+* **Tambah Tugas:** Input judul/jadwal, tanggal, waktu, kategori, prioritas, dan catatan tambahan.
 * **Prioritas Tugas:** * *High:* Ungu Tua (#7B1FA2)
     * *Medium:* Ungu Muda (#CE93D8)
     * *Low:* Putih (Border Hitam)
