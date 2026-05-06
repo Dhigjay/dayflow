@@ -1,7 +1,7 @@
 # Product Requirements Document (PRD) - DayFlow
 
 **Nama Aplikasi:** DayFlow  
-**Platform:** Mobile (Android & iOS - Flutter)  
+**Platform:** Mobile (Android - Flutter)  
 **Pengembang:** Jay.dev  
 **Versi Dokumen:** 1.1  
 **Status Produk:** Dalam Pengembangan (*In-Development*)  
