@@ -2,7 +2,7 @@
 
 **Versi:** 1.0  
 **Status:** In-Progress  
-**Pemilik Produk:** [Dhigjay]  
+**Pemilik Produk:** Dhigjay  
 **Desainer/Developer:** Jay.dev  
 
 ---
