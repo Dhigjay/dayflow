@@ -114,7 +114,7 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
           'TAMBAH JADWAL',
           style: TextStyle(
             fontWeight: FontWeight.w800,
-            fontSize: 15,
+            fontSize: 18,
             letterSpacing: 1.2,
             color: Colors.black,
           ),

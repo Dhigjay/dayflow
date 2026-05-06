@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../widgets/avatar_data.dart';
 import 'add_schedule_page.dart';
 import 'profile_page.dart';
 import '../widgets/app_sidebar.dart';
@@ -17,28 +18,12 @@ class _HomePageState extends State<HomePage> {
 
   String _todayLabel() {
     const days = [
-      'SUNDAY',
-      'MONDAY',
-      'TUESDAY',
-      'WEDNESDAY',
-      'THURSDAY',
-      'FRIDAY',
-      'SATURDAY',
+      'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY',
+      'THURSDAY', 'FRIDAY', 'SATURDAY',
     ];
     const months = [
-      '',
-      'JAN',
-      'FEB',
-      'MAR',
-      'APR',
-      'MAY',
-      'JUN',
-      'JUL',
-      'AUG',
-      'SEP',
-      'OCT',
-      'NOV',
-      'DEC',
+      '', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
+      'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC',
     ];
     final now = DateTime.now();
     return '${days[now.weekday % 7]}, ${months[now.month]} ${now.day}';
@@ -46,12 +31,9 @@ class _HomePageState extends State<HomePage> {
 
   Color _priorityColor(TaskPriority priority) {
     switch (priority) {
-      case TaskPriority.high:
-        return const Color(0xFF7B1FA2);
-      case TaskPriority.medium:
-        return const Color(0xFFCE93D8);
-      case TaskPriority.low:
-        return Colors.white;
+      case TaskPriority.high:   return const Color(0xFF7B1FA2);
+      case TaskPriority.medium: return const Color(0xFFCE93D8);
+      case TaskPriority.low:    return Colors.white;
     }
   }
 
@@ -69,55 +51,31 @@ class _HomePageState extends State<HomePage> {
     return '${hour12.toString().padLeft(2, '0')}:$m $suffix';
   }
 
-  // ── BARU: format tanggal ──
   String _formatDate(DateTime date) {
     const months = [
-      '',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
+      '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     ];
     return '${date.day} ${months[date.month]} ${date.year}';
   }
 
-  // ── BARU: label kategori ──
   String _categoryLabel(TaskCategory cat) {
     switch (cat) {
-      case TaskCategory.work:
-        return 'Work';
-      case TaskCategory.personal:
-        return 'Personal';
-      case TaskCategory.health:
-        return 'Health';
-      case TaskCategory.study:
-        return 'Study';
-      case TaskCategory.other:
-        return 'Other';
+      case TaskCategory.work:     return 'Work';
+      case TaskCategory.personal: return 'Personal';
+      case TaskCategory.health:   return 'Health';
+      case TaskCategory.study:    return 'Study';
+      case TaskCategory.other:    return 'Other';
     }
   }
 
-  // ── BARU: ikon kategori ──
   IconData _categoryIcon(TaskCategory cat) {
     switch (cat) {
-      case TaskCategory.work:
-        return Icons.work_outline;
-      case TaskCategory.personal:
-        return Icons.person_outline;
-      case TaskCategory.health:
-        return Icons.favorite_border;
-      case TaskCategory.study:
-        return Icons.school_outlined;
-      case TaskCategory.other:
-        return Icons.label_outline;
+      case TaskCategory.work:     return Icons.work_outline;
+      case TaskCategory.personal: return Icons.person_outline;
+      case TaskCategory.health:   return Icons.favorite_border;
+      case TaskCategory.study:    return Icons.school_outlined;
+      case TaskCategory.other:    return Icons.label_outline;
     }
   }
 
@@ -126,10 +84,7 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(
-          'Tandai Selesai?',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
+        title: const Text('Tandai Selesai?', style: TextStyle(fontWeight: FontWeight.w700)),
         content: Text('Apakah "${task.title}" sudah selesai dikerjakan?'),
         actions: [
           TextButton(
@@ -139,18 +94,13 @@ class _HomePageState extends State<HomePage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFAB47BC),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             onPressed: () {
               Navigator.pop(ctx);
               setState(() => _state.completeTask(task.id));
             },
-            child: const Text(
-              'Ya, Selesai!',
-              style: TextStyle(color: Colors.white),
-            ),
+            child: const Text('Ya, Selesai!', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -162,10 +112,7 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(
-          'Batalkan?',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
+        title: const Text('Batalkan?', style: TextStyle(fontWeight: FontWeight.w700)),
         content: Text('Kembalikan "${task.title}" ke daftar jadwal?'),
         actions: [
           TextButton(
@@ -175,9 +122,7 @@ class _HomePageState extends State<HomePage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             onPressed: () {
               Navigator.pop(ctx);
@@ -190,6 +135,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _goToProfile() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, _) => const ProfilePage(),
+        transitionsBuilder: (context, anim, _, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 300),
+      ),
+    ).then((_) => setState(() {})); // rebuild agar avatar langsung update
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -197,8 +154,14 @@ class _HomePageState extends State<HomePage> {
     final pending = _state.pendingTasks;
     final completed = _state.completedTasks;
 
+    // ── Avatar mengikuti pilihan user ──
+    final avatar = getAvatar(user?.avatarIndex ?? 0);
+
     return Scaffold(
       drawer: const AppSidebar(),
+      onDrawerChanged: (isOpened) {
+        if (isOpened) setState(() {}); // refresh saat drawer dibuka
+      },
       backgroundColor: const Color(0xFFAB47BC),
       body: SafeArea(
         child: Column(
@@ -207,69 +170,54 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(color: Colors.black, width: 1.5),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(2, 3),
-                      blurRadius: 0,
-                    ),
+                    BoxShadow(color: Colors.black, offset: Offset(2, 3), blurRadius: 0),
                   ],
                 ),
                 child: Row(
                   children: [
+                    // Menu / Hamburger
                     Builder(
                       builder: (ctx) => GestureDetector(
                         onTap: () => Scaffold.of(ctx).openDrawer(),
-                        child: const Icon(
-                          Icons.menu,
-                          size: 24,
-                          color: Colors.black,
-                        ),
+                        child: const Icon(Icons.menu, size: 24, color: Colors.black),
                       ),
                     ),
                     const SizedBox(width: 8),
+
+                    // Title
                     const Expanded(
                       child: Text(
                         'DayFlow',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 18,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                     ),
+
+                    // ── Avatar Top Bar — ikut pilihan user ──
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation, _) =>
-                                const ProfilePage(),
-                            transitionsBuilder: (context, anim, _, child) =>
-                                FadeTransition(opacity: anim, child: child),
-                            transitionDuration: const Duration(
-                              milliseconds: 300,
-                            ),
-                          ),
-                        ).then((_) => setState(() {}));
-                      },
+                      onTap: _goToProfile,
                       child: Container(
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.grey.shade200,
+                          color: avatar.bgColor,
                           border: Border.all(color: Colors.black, width: 1.5),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black,
+                              offset: Offset(1, 2),
+                              blurRadius: 0,
+                            ),
+                          ],
                         ),
-                        child: const Icon(Icons.person_outline, size: 20),
+                        child: Icon(avatar.icon, size: 18, color: avatar.iconColor),
                       ),
                     ),
                   ],
@@ -287,11 +235,7 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(color: Colors.black, width: 1.5),
                     boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black,
-                        offset: Offset(3, 4),
-                        blurRadius: 0,
-                      ),
+                      BoxShadow(color: Colors.black, offset: Offset(3, 4), blurRadius: 0),
                     ],
                   ),
                   child: ClipRRect(
@@ -301,7 +245,8 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Greeting + Avatar row
+
+                          // ── Greeting + Avatar Greeting ──
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -331,21 +276,26 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                               ),
-                              Container(
-                                width: 56,
-                                height: 56,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey.shade200,
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 2,
+
+                              // ── Avatar Greeting — ikut pilihan user ──
+                              GestureDetector(
+                                onTap: _goToProfile,
+                                child: Container(
+                                  width: 56,
+                                  height: 56,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: avatar.bgColor,
+                                    border: Border.all(color: Colors.black, width: 2),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black,
+                                        offset: Offset(2, 3),
+                                        blurRadius: 0,
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                child: const Icon(
-                                  Icons.person,
-                                  size: 32,
-                                  color: Colors.grey,
+                                  child: Icon(avatar.icon, size: 30, color: avatar.iconColor),
                                 ),
                               ),
                             ],
@@ -358,17 +308,11 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               const Text(
                                 'Schedule',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
                               ),
                               const SizedBox(width: 10),
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 4,
-                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                 decoration: const BoxDecoration(
                                   color: Color(0xFFAB47BC),
                                   shape: BoxShape.circle,
@@ -392,26 +336,21 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               child: Text(
                                 'Tidak ada jadwal. Tap + untuk menambah!',
-                                style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                  fontSize: 14,
-                                ),
+                                style: TextStyle(color: Colors.grey.shade500, fontSize: 14),
                               ),
                             )
                           else
-                            ...pending.map(
-                              (task) => _buildTaskCard(task, false),
-                            ),
+                            ...pending.map((task) => _buildTaskCard(task, false)),
 
                           const SizedBox(height: 20),
 
                           // ── Complete Section ──
                           Text(
-                            'Complete',
+                            'Completed',
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.grey.shade500,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                              
                             ),
                           ),
 
@@ -422,16 +361,11 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(
                                 'Belum ada yang selesai.',
-                                style: TextStyle(
-                                  color: Colors.grey.shade400,
-                                  fontSize: 14,
-                                ),
+                                style: TextStyle(color: Colors.grey.shade400, fontSize: 14),
                               ),
                             )
                           else
-                            ...completed.map(
-                              (task) => _buildTaskCard(task, true),
-                            ),
+                            ...completed.map((task) => _buildTaskCard(task, true)),
 
                           const SizedBox(height: 20),
                         ],
@@ -453,12 +387,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTaskCard(TaskItem task, bool isComplete) {
-    final bgColor = isComplete
-        ? Colors.grey.shade100
-        : _priorityColor(task.priority);
-    final textColor = isComplete
-        ? Colors.grey.shade400
-        : _priorityTextColor(task.priority);
+    final bgColor = isComplete ? Colors.grey.shade100 : _priorityColor(task.priority);
+    final textColor = isComplete ? Colors.grey.shade400 : _priorityTextColor(task.priority);
     final subTextColor = isComplete
         ? Colors.grey.shade400
         : textColor.withValues(alpha: 0.75);
@@ -478,21 +408,18 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Dot (sedikit padding atas agar sejajar dengan teks judul)
+          // Dot kiri
           Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Container(
               width: 10,
               height: 10,
-              decoration: BoxDecoration(
-                color: dotColor,
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
             ),
           ),
           const SizedBox(width: 12),
 
-          // ── Konten utama ──
+          // Konten utama
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -511,26 +438,18 @@ class _HomePageState extends State<HomePage> {
 
                 const SizedBox(height: 6),
 
-                // ── Baris: Tanggal & Waktu ──
+                // Tanggal & Waktu
                 Row(
                   children: [
-                    Icon(
-                      Icons.calendar_today_outlined,
-                      size: 12,
-                      color: subTextColor,
-                    ),
+                    Icon(Icons.calendar_today_outlined, size: 12, color: subTextColor),
                     const SizedBox(width: 4),
                     Text(
-                      task.date != null ? _formatDate(task.date!) : '',
+                      task.date != null ? _formatDate(task.date!) : '-',
                       style: TextStyle(fontSize: 12, color: subTextColor),
                     ),
                     if (task.time != null) ...[
                       const SizedBox(width: 10),
-                      Icon(
-                        Icons.access_time_outlined,
-                        size: 12,
-                        color: subTextColor,
-                      ),
+                      Icon(Icons.access_time_outlined, size: 12, color: subTextColor),
                       const SizedBox(width: 4),
                       Text(
                         _formatTime(task.time),
@@ -542,14 +461,10 @@ class _HomePageState extends State<HomePage> {
 
                 const SizedBox(height: 5),
 
-                // ── Baris: Kategori ──
+                // Kategori
                 Row(
                   children: [
-                    Icon(
-                      _categoryIcon(task.category),
-                      size: 12,
-                      color: subTextColor,
-                    ),
+                    Icon(_categoryIcon(task.category), size: 12, color: subTextColor),
                     const SizedBox(width: 4),
                     Text(
                       _categoryLabel(task.category),
@@ -562,14 +477,11 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
 
-                // ── Catatan (hanya tampil jika ada) ──
+                // Catatan (jika ada)
                 if (task.notes != null && task.notes!.isNotEmpty) ...[
                   const SizedBox(height: 6),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(10),
@@ -577,11 +489,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.notes_outlined,
-                          size: 12,
-                          color: subTextColor,
-                        ),
+                        Icon(Icons.notes_outlined, size: 12, color: subTextColor),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
@@ -605,7 +513,7 @@ class _HomePageState extends State<HomePage> {
 
           const SizedBox(width: 8),
 
-          // ── Checkbox ──
+          // Checkbox
           GestureDetector(
             onTap: () => isComplete
                 ? _showUncompleteDialog(task)
@@ -653,9 +561,7 @@ class _HomePageState extends State<HomePage> {
               height: 44,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _currentIndex == 0
-                    ? const Color(0xFFAB47BC)
-                    : Colors.transparent,
+                color: _currentIndex == 0 ? const Color(0xFFAB47BC) : Colors.transparent,
               ),
               child: Icon(
                 Icons.home_filled,
@@ -665,14 +571,14 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          // Add
+          // Add Schedule
           GestureDetector(
             onTap: () async {
               final newTask = await Navigator.push<TaskItem>(
                 context,
                 PageRouteBuilder(
                   pageBuilder: (_, a, b) => const AddSchedulePage(),
-                  transitionsBuilder: (context, anim, secondaryAnim, child) =>
+                  transitionsBuilder: (context, anim, _, child) =>
                       SlideTransition(
                         position: Tween<Offset>(
                           begin: const Offset(0, 1),
@@ -701,22 +607,8 @@ class _HomePageState extends State<HomePage> {
 
           // Profile
           GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, a, b) => const ProfilePage(),
-                  transitionsBuilder: (context, anim, secondaryAnim, child) =>
-                      FadeTransition(opacity: anim, child: child),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              ).then((_) => setState(() {}));
-            },
-            child: const Icon(
-              Icons.person_outline,
-              color: Colors.black45,
-              size: 24,
-            ),
+            onTap: _goToProfile,
+            child: const Icon(Icons.person_outline, color: Colors.black45, size: 24),
           ),
         ],
       ),

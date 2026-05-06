@@ -1,8 +1,8 @@
 import 'package:dayflow/screens/add_schedule_page.dart';
+import 'package:dayflow/widgets/avatar_data.dart';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import 'start_page.dart';
-import 'home_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -13,6 +13,126 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final AppState _state = AppState();
+
+  // ── Tampilkan bottom sheet pilih avatar ──
+  void _showAvatarPicker() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(28),
+              topRight: Radius.circular(28),
+            ),
+          ),
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle bar
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'PILIH AVATAR',
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 14,
+                  letterSpacing: 1.5,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Grid avatar
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.85,
+                ),
+                itemCount: kAvatars.length,
+                itemBuilder: (context, index) {
+                  final avatar = kAvatars[index];
+                  final isSelected =
+                      (_state.currentUser?.avatarIndex ?? 0) == index;
+                  return GestureDetector(
+                    onTap: () {
+                      _state.updateAvatar(index);
+                      setState(() {});
+                      Navigator.pop(ctx);
+                    },
+                    child: Column(
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: avatar.bgColor,
+                            border: Border.all(
+                              color: isSelected
+                                  ? const Color(0xFFAB47BC)
+                                  : Colors.black,
+                              width: isSelected ? 3 : 1.5,
+                            ),
+                            boxShadow: isSelected
+                                ? const [
+                                    BoxShadow(
+                                      color: Color(0xFFAB47BC),
+                                      offset: Offset(2, 3),
+                                      blurRadius: 0,
+                                    ),
+                                  ]
+                                : const [
+                                    BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(2, 2),
+                                      blurRadius: 0,
+                                    ),
+                                  ],
+                          ),
+                          child: Icon(
+                            avatar.icon,
+                            size: 30,
+                            color: avatar.iconColor,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          avatar.label,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected
+                                ? const Color(0xFFAB47BC)
+                                : Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   void _showEditDialog(
     String field,
@@ -122,6 +242,9 @@ class _ProfilePageState extends State<ProfilePage> {
     final pendingCount = _state.pendingTasks.length;
     final streak = _state.streakCount;
 
+    // Avatar yang sedang dipilih user
+    final avatar = getAvatar(user?.avatarIndex ?? 0);
+
     return Scaffold(
       backgroundColor: const Color(0xFFAB47BC),
       body: SafeArea(
@@ -159,7 +282,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 40), // balance
+                  const SizedBox(width: 40),
                 ],
               ),
             ),
@@ -185,44 +308,68 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: const EdgeInsets.all(24),
                     child: Column(
                       children: [
-                        // ── Avatar ──
-                        Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey.shade200,
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 2.5,
+                        // ── Avatar dengan tombol edit ──
+                        GestureDetector(
+                          onTap: _showAvatarPicker,
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              // Avatar bulat
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: avatar.bgColor,
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 2.5,
+                                  ),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(2, 3),
+                                      blurRadius: 0,
+                                    ),
+                                  ],
+                                ),
+                                child: Icon(
+                                  avatar.icon,
+                                  size: 54,
+                                  color: avatar.iconColor,
                                 ),
                               ),
-                              child: const Icon(
-                                Icons.person,
-                                size: 56,
-                                color: Colors.grey,
+                              // Tombol edit kecil di pojok kanan bawah
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0xFFAB47BC),
+                                ),
+                                child: const Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
                               ),
-                            ),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFFAB47BC),
-                              ),
-                              child: const Icon(
-                                Icons.edit,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
 
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 8),
+
+                        // Hint tap untuk ganti avatar
+                        Text(
+                          'Tap avatar untuk ganti',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey.shade400,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
 
                         // Name
                         Text(
@@ -287,6 +434,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   username: v,
                                   email: user?.email ?? '',
                                   password: user?.password ?? '',
+                                  avatarIndex: user?.avatarIndex ?? 0,
                                 ),
                               );
                             },
@@ -297,16 +445,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           icon: Icons.mail_outline,
                           label: 'EMAIL ADDRESS',
                           value: user?.email ?? '-',
-                          onTap: () =>
-                              _showEditDialog('Email', user?.email ?? '', (v) {
-                                _state.updateUser(
-                                  AppUser(
-                                    username: user?.username ?? '',
-                                    email: v,
-                                    password: user?.password ?? '',
-                                  ),
-                                );
-                              }),
+                          onTap: () => _showEditDialog(
+                            'Email',
+                            user?.email ?? '',
+                            (v) {
+                              _state.updateUser(
+                                AppUser(
+                                  username: user?.username ?? '',
+                                  email: v,
+                                  password: user?.password ?? '',
+                                  avatarIndex: user?.avatarIndex ?? 0,
+                                ),
+                              );
+                            },
+                          ),
                         ),
 
                         _infoItem(
@@ -322,6 +474,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   username: user?.username ?? '',
                                   email: user?.email ?? '',
                                   password: v,
+                                  avatarIndex: user?.avatarIndex ?? 0,
                                 ),
                               );
                             },
@@ -343,11 +496,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
-                                  Icons.logout,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
+                                Icon(Icons.logout, color: Colors.white, size: 20),
                                 SizedBox(width: 10),
                                 Text(
                                   'LOGOUT',
@@ -490,31 +639,42 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // Tombol Home
           GestureDetector(
-            onTap: () => Navigator.pop(context), // Kembali ke layar utama
-            child: const Icon(
-              Icons.home_filled,
-              color: Colors.black45,
-              size: 24,
+            onTap: () => Navigator.pop(context),
+            child: const Icon(Icons.home_filled, color: Colors.black45, size: 24),
+          ),
+          GestureDetector(
+            onTap: () async {
+              final newTask = await Navigator.push<TaskItem>(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, a, b) => const AddSchedulePage(),
+                  transitionsBuilder: (context, anim, _, child) =>
+                      SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, 1),
+                          end: Offset.zero,
+                        ).animate(anim),
+                        child: child,
+                      ),
+                  transitionDuration: const Duration(milliseconds: 350),
+                ),
+              );
+              if (newTask != null) {
+                setState(() => _state.addTask(newTask));
+              }
+            },
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                border: Border.all(color: Colors.black, width: 1.5),
+              ),
+              child: const Icon(Icons.add, color: Colors.black, size: 24),
             ),
           ),
-
-          // Tombol Add Schedule (Diperbarui navigasinya)
-          GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddSchedulePage(),
-                ), // Pastikan import AddSchedulePage
-              );
-            },
-            // Di sini ikon "+" tidak dibungkus background ungu karena user sedang tidak di halaman Add Schedule
-            child: const Icon(Icons.add, color: Colors.black45, size: 24),
-          ),
-
-          // Tombol Profile (Sedang Aktif)
           Container(
             width: 44,
             height: 44,
@@ -522,11 +682,7 @@ class _ProfilePageState extends State<ProfilePage> {
               shape: BoxShape.circle,
               color: Color(0xFFAB47BC),
             ),
-            child: const Icon(
-              Icons.person_outline,
-              color: Colors.white,
-              size: 24,
-            ),
+            child: const Icon(Icons.person_outline, color: Colors.white, size: 24),
           ),
         ],
       ),

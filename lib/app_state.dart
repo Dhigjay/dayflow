@@ -30,11 +30,13 @@ class AppUser {
   String username;
   String email;
   String password;
+  int avatarIndex; // ← index avatar yang dipilih user (0 = default)
 
   AppUser({
     required this.username,
     required this.email,
     required this.password,
+    this.avatarIndex = 0,
   });
 }
 
@@ -52,7 +54,6 @@ class AppState extends ChangeNotifier {
   List<TaskItem> get completedTasks =>
       _tasks.where((t) => t.isComplete).toList();
 
-  // STREAK = jumlah schedule yang sudah diselesaikan user
   int get streakCount => completedTasks.length;
 
   void addTask(TaskItem task) {
@@ -76,14 +77,12 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  // Login: set user + reset tasks ke default
   void login(AppUser user) {
     currentUser = user;
     _resetTasksToDefault();
     notifyListeners();
   }
 
-  // Logout: hapus user dan semua tasks
   void logout() {
     currentUser = null;
     _tasks = [];
@@ -93,6 +92,19 @@ class AppState extends ChangeNotifier {
   void updateUser(AppUser user) {
     currentUser = user;
     notifyListeners();
+  }
+
+  // ← Method khusus update avatar saja
+  void updateAvatar(int avatarIndex) {
+    if (currentUser != null) {
+      currentUser = AppUser(
+        username: currentUser!.username,
+        email: currentUser!.email,
+        password: currentUser!.password,
+        avatarIndex: avatarIndex,
+      );
+      notifyListeners();
+    }
   }
 
   void _resetTasksToDefault() {

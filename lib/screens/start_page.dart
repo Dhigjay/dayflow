@@ -97,7 +97,7 @@ class _StartPageState extends State<StartPage>
                   style: TextStyle(
                     fontSize: 44,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    color: Colors.black,
                     letterSpacing: -1,
                   ),
                 ),
@@ -106,10 +106,10 @@ class _StartPageState extends State<StartPage>
 
                 // ── Tagline ──
                 Text(
-                  'Find your rhythm.',
+                  'Find your rhythm!',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white.withValues(alpha: 0.75),
+                    color: Colors.black.withValues(alpha: 0.75),
                     fontStyle: FontStyle.italic,
                     letterSpacing: 0.3,
                   ),
@@ -143,16 +143,16 @@ class _StartPageState extends State<StartPage>
                             'Start!',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 22,
+                              fontSize: 26,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.5,
                             ),
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: 7),
                           Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
-                            size: 22,
+                            size: 25,
                           ),
                         ],
                       ),

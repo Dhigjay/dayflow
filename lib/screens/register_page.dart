@@ -239,15 +239,26 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             );
                           },
-                          child: const Text(
-                            'Already have an account? Login',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
+                          child: RichText(
+                          text: TextSpan(
+                            style: const TextStyle(
                               color: Colors.black87,
+                              fontSize: 14,
                             ),
+                            children: [
+                              const TextSpan(text: "Already have an account? "),
+                              TextSpan(
+                                text: 'Login',
+                                style: TextStyle(
+                                  color: const Color(0xFFAB47BC),
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: const Color(0xFFAB47BC),
+                                ),
+                              ),
+                            ],
                           ),
+                        ),
                         ),
                       ],
                     ),

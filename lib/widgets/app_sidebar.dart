@@ -1,12 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:dayflow/screens/add_schedule_page.dart';
 import 'package:dayflow/screens/profile_page.dart';
+import 'package:dayflow/screens/start_page.dart';
+import 'package:dayflow/app_state.dart';
+import 'package:dayflow/widgets/avatar_data.dart';
 
-class AppSidebar extends StatelessWidget {
+class AppSidebar extends StatefulWidget {
   const AppSidebar({super.key});
 
   @override
+  State<AppSidebar> createState() => _AppSidebarState();
+}
+
+class _AppSidebarState extends State<AppSidebar> {
+  final AppState _state = AppState();
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'Logout?',
+          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+        ),
+        content: const Text(
+          'Kamu akan keluar dari akun DayFlow.\nYakin ingin logout?',
+          style: TextStyle(fontSize: 14, color: Colors.black54),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              'Batal',
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red.shade400,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.pop(context);
+              _state.logout();
+              Navigator.pushAndRemoveUntil(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, anim, __) => const StartPage(),
+                  transitionsBuilder: (_, anim, __, child) =>
+                      FadeTransition(opacity: anim, child: child),
+                  transitionDuration: const Duration(milliseconds: 400),
+                ),
+                (route) => false,
+              );
+            },
+            child: const Text(
+              'Ya, Logout',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final user = _state.currentUser;
+    final completedCount = _state.completedTasks.length;
+    final pendingCount = _state.pendingTasks.length;
+    final streakCount = _state.streakCount;
+
+    // ← Avatar dari pilihan user
+    final avatar = getAvatar(user?.avatarIndex ?? 0);
+
     return Drawer(
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
@@ -19,17 +94,18 @@ class AppSidebar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Header Profile ──
+            // ── Header: avatar + username + email ──
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
               child: Row(
                 children: [
+                  // Avatar mengikuti pilihan user
                   Container(
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.grey.shade200,
+                      color: avatar.bgColor,
                       border: Border.all(color: Colors.black, width: 2),
                       boxShadow: const [
                         BoxShadow(
@@ -39,45 +115,47 @@ class AppSidebar extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Icon(Icons.person, size: 32, color: Colors.grey),
+                    child: Icon(avatar.icon, size: 30, color: avatar.iconColor),
                   ),
                   const SizedBox(width: 14),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Alex Rivers',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 17,
-                          color: Colors.black87,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user?.username ?? 'User',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        'alex@dayflow.io',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500,
+                        const SizedBox(height: 2),
+                        Text(
+                          user?.email ?? '-',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
 
             const SizedBox(height: 20),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(height: 1.5, color: Colors.black),
             ),
-
             const SizedBox(height: 16),
 
-            // ── Tasks (AKTIF = ungu gelap) ──
+            // ── Menu Items ──
             _buildMenuItem(
               context,
               icon: Icons.check_circle_outline,
@@ -85,8 +163,6 @@ class AppSidebar extends StatelessWidget {
               isActive: true,
               onTap: () => Navigator.pop(context),
             ),
-
-            // ── Add Schedule (ungu muda) ──
             _buildMenuItem(
               context,
               icon: Icons.calendar_month_outlined,
@@ -111,8 +187,6 @@ class AppSidebar extends StatelessWidget {
                 );
               },
             ),
-
-            // ── My Account (ungu muda) ──
             _buildMenuItem(
               context,
               icon: Icons.person_outline,
@@ -128,17 +202,15 @@ class AppSidebar extends StatelessWidget {
                         FadeTransition(opacity: anim, child: child),
                     transitionDuration: const Duration(milliseconds: 300),
                   ),
-                );
+                ).then((_) => setState(() {})); // refresh avatar setelah kembali
               },
             ),
 
             const SizedBox(height: 24),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(height: 1.5, color: Colors.black),
             ),
-
             const SizedBox(height: 20),
 
             // ── TASK STATS ──
@@ -154,96 +226,29 @@ class AppSidebar extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 12),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
-                  // Completed
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF7B1FA2),
-                        borderRadius: BorderRadius.circular(22),
-                        border: Border.all(color: Colors.black, width: 1.5),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black,
-                            offset: Offset(2, 3),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Completed',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            '128',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w900,
-                              height: 1,
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: _statCard(
+                      value: '$completedCount',
+                      label: 'Completed',
+                      bgColor: const Color(0xFF7B1FA2),
+                      valueColor: Colors.white,
+                      labelColor: Colors.white70,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  // Pending
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(22),
-                        border: Border.all(color: Colors.black, width: 1.5),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black,
-                            offset: Offset(2, 3),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Pending',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            '14',
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w900,
-                              height: 1,
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: _statCard(
+                      value: '$pendingCount',
+                      label: 'Pending',
+                      bgColor: Colors.grey.shade200,
+                      valueColor: Colors.black87,
+                      labelColor: Colors.black54,
                     ),
                   ),
                 ],
@@ -252,7 +257,7 @@ class AppSidebar extends StatelessWidget {
 
             const SizedBox(height: 14),
 
-            // ── Streak Habit ──
+            // ── Streak ──
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
@@ -264,20 +269,17 @@ class AppSidebar extends StatelessWidget {
                   border: Border.all(color: Colors.black, width: 1.5),
                   boxShadow: const [
                     BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(2, 3),
-                      blurRadius: 0,
-                    ),
+                        color: Colors.black, offset: Offset(2, 3), blurRadius: 0),
                   ],
                 ),
-                child: const Row(
+                child: Row(
                   children: [
-                    Text('🔥', style: TextStyle(fontSize: 30)),
-                    SizedBox(width: 14),
+                    const Text('🔥', style: TextStyle(fontSize: 30)),
+                    const SizedBox(width: 14),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Streak Habit',
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
@@ -285,10 +287,10 @@ class AppSidebar extends StatelessWidget {
                             color: Colors.black87,
                           ),
                         ),
-                        SizedBox(height: 2),
+                        const SizedBox(height: 2),
                         Text(
-                          '12 Days Streak!',
-                          style: TextStyle(
+                          '$streakCount Days Streak!',
+                          style: const TextStyle(
                             fontSize: 12,
                             color: Colors.black54,
                             fontWeight: FontWeight.w500,
@@ -307,15 +309,7 @@ class AppSidebar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
               child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                  // TODO: navigasi ke halaman login
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(builder: (_) => const StartPage()),
-                  //   (route) => false,
-                  // );
-                },
+                onTap: () => _showLogoutDialog(context),
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -333,8 +327,7 @@ class AppSidebar extends StatelessWidget {
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.logout_outlined,
-                          color: Colors.white, size: 20),
+                      Icon(Icons.logout_outlined, color: Colors.white, size: 20),
                       SizedBox(width: 10),
                       Text(
                         'LOGOUT',
@@ -352,6 +345,43 @@ class AppSidebar extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _statCard({
+    required String value,
+    required String label,
+    required Color bgColor,
+    required Color valueColor,
+    required Color labelColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: Colors.black, width: 1.5),
+        boxShadow: const [
+          BoxShadow(color: Colors.black, offset: Offset(2, 3), blurRadius: 0),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label,
+              style: TextStyle(
+                  color: labelColor,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          Text(value,
+              style: TextStyle(
+                  color: valueColor,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w900,
+                  height: 1)),
+        ],
       ),
     );
   }
@@ -377,19 +407,14 @@ class AppSidebar extends StatelessWidget {
             border: Border.all(color: Colors.black, width: 1.5),
             boxShadow: const [
               BoxShadow(
-                color: Colors.black,
-                offset: Offset(2, 3),
-                blurRadius: 0,
-              ),
+                  color: Colors.black, offset: Offset(2, 3), blurRadius: 0),
             ],
           ),
           child: Row(
             children: [
-              Icon(
-                icon,
-                size: 22,
-                color: isActive ? Colors.white : const Color(0xFF7B1FA2),
-              ),
+              Icon(icon,
+                  size: 22,
+                  color: isActive ? Colors.white : const Color(0xFF7B1FA2)),
               const SizedBox(width: 14),
               Text(
                 label,
