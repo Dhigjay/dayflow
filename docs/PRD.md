@@ -1,62 +1,70 @@
 # Product Requirements Document (PRD) - DayFlow
 
-**Versi:** 1.0  
-**Status:** In-Progress  
-**Pemilik Produk:** Dhigjay  
-**Tanggal Pembuatan:** 06 Mei 2026
+**Nama Aplikasi:** DayFlow  
+**Platform:** Mobile (Android & iOS - Flutter)  
+**Pengembang:** Jay.dev  
+**Versi Dokumen:** 1.1  
+**Status Produk:** Dalam Pengembangan (*In-Development*)  
+
 ---
 
-## 1. Ringkasan Eksekutif
-**DayFlow** adalah aplikasi manajemen tugas (to-do list) berbasis mobile yang dirancang untuk membantu pengguna mengelola jadwal harian dengan antarmuka yang berani, dinamis, dan tidak kaku. Menggunakan gaya desain **Neo-brutalism**, DayFlow memadukan fungsionalitas produktivitas dengan estetika modern.
+## 1. Tujuan Aplikasi
+**DayFlow** dibangun dengan tujuan untuk meredefinisi cara pengguna mengelola jadwal harian mereka. Alih-alih menggunakan pendekatan minimalis yang kaku dan membosankan, aplikasi ini bertujuan untuk:
+* Meningkatkan produktivitas pengguna melalui sistem pelacakan tugas yang transparan dan *rewarding* (berbasis statistik).
+* Memberikan pengalaman visual yang unik, berani, dan modern melalui gaya desain *Neo-brutalism*.
+* Menyediakan navigasi yang cepat dan tidak membingungkan, di mana pengguna dapat langsung melihat status keseharian mereka dalam satu kali tatap.
 
-## 2. Tujuan & Visi
-* **Tujuan:** Menyediakan platform manajemen jadwal yang intuitif dengan pelacakan statistik yang nyata. Serta membuat pribadi yang lebih produktif.
-* **Visi:** Mengubah manajemen waktu dari aktivitas yang membosankan menjadi pengalaman visual yang menarik melalui desain yang unik.
+## 2. Perilaku Aplikasi (App Behavior)
+Perilaku antarmuka dan interaksi pengguna dalam DayFlow diatur oleh prinsip-prinsip berikut:
+* **Responsif & Real-time:** Setiap interaksi pengguna (seperti menyelesaikan tugas) harus secara instan memperbarui *state* aplikasi secara keseluruhan (mengurangi tugas "Pending" dan menambah tugas "Completed" serta "Streak" di Home dan Sidebar).
+* **Anti-Kesalahan (Error Prevention):** Aplikasi berperilaku sangat hati-hati terhadap aksi destruktif atau perubahan status. Pengguna harus disuguhkan *Dialog Konfirmasi* sebelum melakukan "Logout", menandai tugas "Selesai", atau mengembalikan tugas selesai menjadi "Pending".
+* **Gaya Visual Konsisten:** Perilaku visual secara tegas mengikuti pakem *Neo-brutalism*. Bayangan (*shadow*) bernilai *blur* 0 dengan garis batas hitam pekat. Tipografi menggunakan font modern (seperti Space Grotesk/Poppins) untuk menghindari kesan formal.
 
-## 3. Target Pengguna
-1.  **Pelajar/Mahasiswa:** Membutuhkan pengaturan jadwal belajar yang rapi.
-2.  **Profesional Muda:** Mengelola tugas pekerjaan dan personal dalam satu tempat.
-3.  **Penggemar Estetika:** Pengguna yang bosan dengan desain aplikasi produktivitas yang terlalu formal atau minimalis standar.
+---
 
-## 4. Fitur Utama (User Features)
+## 3. Penjelasan Mendalam Fitur dan Fungsi
 
-### 4.1 Manajemen Jadwal (Schedule Management)
-* **Tambah Tugas:** Input judul/jadwal, tanggal, waktu, kategori, prioritas, dan catatan tambahan.
-* **Prioritas Tugas:** * *High:* Ungu Tua (#7B1FA2)
-    * *Medium:* Ungu Muda (#CE93D8)
-    * *Low:* Putih (Border Hitam)
-* **Kategori:** Work, Personal, Health, Study, Other.
-* **Konfirmasi Selesai:** Dialog konfirmasi sebelum menandai tugas sebagai selesai atau mengembalikannya ke daftar pending.
+### 3.1. Sistem Autentikasi (Start, Register, Login)
+**Fungsi:** Mengidentifikasi dan menyimpan data individu pengguna agar pengalaman menjadi personal.
+* **Start Page:** Halaman penyambutan dengan tipografi besar dan desain *bold* yang mengarahkan pengguna ke Login atau Register.
+* **Register & Login Page:** Formulir input untuk kredensial (Username, Email, Password). 
+* **Perilaku Spesifik:** Data (Username dan Email) yang berhasil diinput saat proses registrasi/login **harus** tersimpan di dalam *state* dan disinkronkan ke seluruh aplikasi (terutama Sidebar dan Profile Page).
 
-### 4.2 Dashboard & Statistik (Home Page)
-* **Sinkronisasi Data:** Menampilkan profil pengguna (Username & Email) secara dinamis dari proses registrasi/login.
-* **Statistik Tugas:**
-    * *Pending:* Jumlah tugas yang belum selesai.
-    * *Completed:* Jumlah total tugas yang berhasil diselesaikan.
-    * *Streak:* Pelacakan konsistensi penyelesaian tugas (saat ini disamakan dengan jumlah completed).
+### 3.2. Manajemen Jadwal & Tugas (Schedule & Tasks)
+**Fungsi:** Modul utama tempat pengguna membuat, mengedit, melihat, dan menyelesaikan jadwal harian.
+* **Pembuatan Tugas (Add Task):** Pengguna dapat memasukkan parameter tugas:
+    * *Judul Tugas*
+    * *Tanggal & Waktu*
+    * *Kategori* (Work, Personal, Health, Study, dll.) beserta representasi ikonnya.
+    * *Prioritas*
+* **Indikator Prioritas Visual:**
+    * **High (Tinggi):** Kartu tugas direpresentasikan dengan warna ungu tua (#7B1FA2).
+    * **Medium (Sedang):** Kartu tugas direpresentasikan dengan warna ungu muda (#CE93D8).
+    * **Low (Rendah):** Kartu tugas direpresentasikan dengan warna putih bergaris batas hitam.
+* **Perubahan Status (Checkbox):**
+    * Saat pengguna mencentang tugas di daftar "Schedule", *dialog konfirmasi penyelesaian* akan muncul. Jika disetujui, tugas berpindah ke daftar "Completed".
+    * Saat pengguna menghilangkan centang di daftar "Completed", *dialog konfirmasi pembatalan* muncul. Jika disetujui, tugas kembali ke "Schedule".
 
-### 4.3 Sidebar & Navigasi
-* **Sidebar Dinamis:** Akses cepat ke profil dan statistik.
-* **Logout:** Tombol keluar dengan dialog konfirmasi keamanan.
+### 3.3. Dashboard & Statistik Kinerja (Home Page & Sidebar)
+**Fungsi:** Memberikan ringkasan performa produktivitas pengguna saat ini.
+* **Task Stats (Statistik Tugas):**
+    * **Pending:** Fungsi ini menghitung secara otomatis total tugas yang ada di daftar jadwal (*Schedule*) dan belum diselesaikan.
+    * **Completed:** Menghitung total tugas yang berhasil diselesaikan (*Completed*).
+    * **Streak:** Fungsi gamifikasi yang melacak rekor penyelesaian. (Catatan versi 1.0: Angka Streak disinkronkan agar sama dengan total tugas Completed).
+* **Sidebar Dinamis:** Laci navigasi samping yang menarik data Username, Email, dan ketiga Statistik (Pending, Completed, Streak) secara *real-time* dari *AppState*, sehingga nilainya pasti sama dengan yang ada di Profile Page.
 
-### 4.4 Kustomisasi Profil (Rencana Pengembangan)
-* **Ubah Foto Profil:** Integrasi dengan `image_picker` untuk mengambil foto dari galeri atau kamera.
-* **Update Informasi:** Kemampuan mengubah username atau email di halaman profil.
+### 3.4. Personalisasi & Sesi (Profile & Logout)
+**Fungsi:** Memberikan pengguna kontrol penuh atas akun dan profil mereka.
+* **Kustomisasi Avatar (Profile Page):** Pengguna diberikan kebebasan untuk mengubah foto profil (*default: icon person*). Fungsi ini menggunakan akses galeri atau kamera perangkat untuk mengambil foto dan memperbaruinya di seluruh aplikasi.
+* **Logout (Sidebar):** Tombol aksi untuk mengakhiri sesi.
+    * *Perilaku:* Menampilkan *Dialog Konfirmasi Logout*. Jika "Ya", sistem menghapus kredensial sesi saat ini dari *state* dan melempar pengguna kembali ke Login Page, sekaligus menghapus riwayat halaman (*routing*).
 
-## 5. Spesifikasi Teknis & Desain
-* **Framework:** Flutter (Dart).
-* **State Management:** AppState (Custom Local State).
-* **Gaya Desain:** Neo-brutalism (Bold borders, solid shadows, 0 blur radius).
-* **Tipografi:** Space Grotesk / Poppins (Non-formal, modern).
-* **Package Utama:** `google_fonts`, `image_picker` (rencana).
+---
 
-## 6. Alur Pengguna (User Flow)
-1.  **Start/Auth:** User login/register -> Data disimpan ke state.
-2.  **Home:** User melihat jadwal -> Tambah tugas baru.
-3.  **Action:** User menyelesaikan tugas -> Konfirmasi muncul -> Statistik (Pending & Completed) diperbarui secara real-time.
-4.  **Profile/Sidebar:** User melihat performa tugas dan melakukan logout atau kustomisasi profil.
-
-## 7. Metrik Keberhasilan
-* Peningkatan jumlah tugas yang diselesaikan (Task Completion Rate).
-* Retensi pengguna harian melalui fitur pelacakan *Streak*.
-* Kepuasan visual pengguna terhadap kustomisasi profil.
+## 4. Kebutuhan Teknis (Technical Requirements)
+* **Basis Kode:** Dart / Flutter SDK.
+* **Manajemen State:** Menggunakan *local state management* kustom yang dinamakan `AppState` untuk menyebarkan perubahan data profil dan statistik tugas ke `HomePage`, `AppSidebar`, dan `ProfilePage`.
+* **Dependensi / Package Tambahan:**
+    * `google_fonts`: Untuk memuat font kustom tanpa mengunduh file `.ttf` secara manual.
+    * `image_picker`: Untuk fungsi pengambilan foto profil dari galeri/kamera.
+* **Penyimpanan:** Kredensial akun dan array data tugas (`pendingTasks`, `completedTasks`) disimpan di dalam memori/penyimpanan perangkat untuk memastikan akses yang cepat.
