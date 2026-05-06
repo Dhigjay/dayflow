@@ -3,7 +3,6 @@
 **Versi:** 1.0  
 **Status:** In-Progress  
 **Pemilik Produk:** Dhigjay  
-**Desainer/Developer:** Jay.dev 
 **Tanggal Pembuatan:** 06 Mei 2026
 ---
 
