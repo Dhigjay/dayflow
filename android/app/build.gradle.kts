@@ -53,9 +53,7 @@ android {
     }
 
     buildTypes {
-        // Gunakan getByName("release") untuk mengkonfigurasi build type yang sudah ada
         getByName("release") {
-            // Mengatur agar build type 'release' menggunakan konfigurasi 'release' yang telah dibuat di atas.
             signingConfig = signingConfigs.getByName("release")
         }
     }
